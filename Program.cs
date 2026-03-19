@@ -143,5 +143,15 @@ class Program
         comptePayant.Afficher();
         Console.WriteLine("Nombre d'opérations : " + comptePayant.GetNombreOperations());
     }
+
+    // Partie 3 Réponses aux questions 1, 2, 3, 4.
+    //1) Les 3 classes possédent : le numéro, le nom du titulaire et le solde
+    //2)Les méthodes dupliquées sont : Les getters, setters, la méthodes créditer, debiter et Afficher
+    //3)Si on modifie une seule classe les autres ne sont pas mise a jour automatiquement
+    //4)Non car :
+    //-Ils y a beaucoup de duplication de code
+    //-une modifications doit être fate à plusieurs endroits
+    //-cela augmente le risque d'oublis ou d'erreurs
+    //-le code devient plus long et moins lisible
         
 }
