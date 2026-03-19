@@ -1,5 +1,6 @@
 ﻿namespace tp2;
 using System;
+using System.Runtime.ConstrainedExecution;
 
 class Program
 {
@@ -9,6 +10,7 @@ class Program
         Compte compte1 = new Compte();
         Compte compte2 = new Compte();
         Compte compte3 = new Compte();
+        Compte compte4 = new Compte();
 
         // 2. Initialiser les propriétés de compte1
         compte1.SetNumero(1);
@@ -24,6 +26,8 @@ class Program
         compte3.SetNom("Charlie");
         compte3.SetSolde(200);
 
+
+
         // 4. Afficher un en-tête puis tous les comptes
         Console.WriteLine("=== LISTE DES COMPTES ===");
         Compte[] comptes = { compte1, compte2, compte3 };
@@ -32,10 +36,6 @@ class Program
         {
             compte.Afficher();
         }
-
-        // 5. Référence vs copie
-        Compte compte4 = compte1;
-
         // 6. Créditer compte1 de 500 €
         Console.WriteLine();
         Console.WriteLine("=== REFERENCE VS COPIE ===");
@@ -107,12 +107,41 @@ class Program
         compte1.Afficher();
         compte2.Afficher();
         compte3.Afficher();
-    }
 
-    /*
-    
-    
-    
-    
-    */
+        //Ajout d'un Compte epargne
+        Console.WriteLine();
+        Console.WriteLine("=== COMPTE EPARGNE ===");
+        
+        CompteEpargne compteEpargne = new CompteEpargne();
+        compteEpargne.SetNumero(5);
+        compteEpargne.SetNom("Diana");
+        compteEpargne.SetSolde(800);
+        compteEpargne.SetTauxInteret(0.04);
+        compteEpargne.SetDateOuverture(new DateTime(2024, 9, 1));
+
+        compteEpargne.Crediter(100);
+        compteEpargne.Debiter(200);
+        compteEpargne.Debiter(800); // refusé
+
+        compteEpargne.Afficher();
+
+        //Test du Compte Payant
+        Console.WriteLine();
+        Console.WriteLine("=== COMPTE PAYANT ===");
+
+        ComptePayant comptePayant = new ComptePayant();
+        comptePayant.SetNumero(6);
+        comptePayant.SetNom("Emma");
+        comptePayant.SetSolde(600);
+        comptePayant.SetCommission(2);
+        comptePayant.SetNombreOperations(0);
+
+        comptePayant.Crediter(50);
+        comptePayant.Debiter(100);
+        comptePayant.Debiter(50); // refusé 
+
+        comptePayant.Afficher();
+        Console.WriteLine("Nombre d'opérations : " + comptePayant.GetNombreOperations());
+    }
+        
 }
