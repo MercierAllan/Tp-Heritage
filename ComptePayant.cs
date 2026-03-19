@@ -1,48 +1,29 @@
-class ComptePayant
+class ComptePayant : Compte
 {
-    private int numero;
-    private string nom;
-    private double solde;
-
     private double commission;
     private int nombreOperations;
 
-    // Getters / Setters
-    public int GetNumero() 
-    { 
-        return numero; 
-    }
-    public void SetNumero(int numero) 
-    { 
-        this.numero = numero; 
+    // Constructeur
+    public ComptePayant(int numero, string nom, double solde, double commission)
+        : base(numero, nom, solde)
+    {
+        this.commission = commission;
+        this.nombreOperations = 0;
     }
 
-    public string GetNom() 
-    { 
-        return nom; 
-    }
-    public void SetNom(string nom) 
-    { 
-        this.nom = nom; 
+    public ComptePayant()
+    {
     }
 
-    public double GetSolde() 
-    { 
-        return solde; 
-    }
-    public void SetSolde(double solde) 
-    { 
-        this.solde = solde; 
-    }
-
+    // Getters / Setters 
     public double GetCommission() 
     { 
         return commission; 
     }
-    public void SetCommission(double commission) 
+    public void SetCommission(double commission)
     { 
-        this.commission = commission;
-}
+        this.commission = commission; 
+    }
 
     public int GetNombreOperations() 
     { 
@@ -50,36 +31,36 @@ class ComptePayant
     }
     public void SetNombreOperations(int n) 
     { 
-        this.nombreOperations = n; 
+        nombreOperations = n; 
     }
 
-    // Méthodes
-    public bool Crediter(double montant)
+    // Redéfinir les méthodes pour appliquer la commission et compter les opérations
+    public override bool Crediter(double montant)
     {
         if (montant <= 0) return false;
 
-        solde += (montant - commission);
+        SetSolde(GetSolde() + montant - commission);
         nombreOperations++;
         return true;
     }
 
-    public bool Debiter(double montant)
+    public override bool Debiter(double montant)
     {
         if (montant <= 0) return false;
 
-        if (solde - montant - commission < -200)
+        if (GetSolde() - montant - commission < -200)
         {
-            Console.WriteLine("Débit refusé");
+            Console.WriteLine("Débit refusé : solde insuffisant pour Compte Payant.");
             return false;
         }
 
-        solde -= (montant + commission);
+        SetSolde(GetSolde() - montant - commission);
         nombreOperations++;
         return true;
     }
 
-    public void Afficher()
+    public override void Afficher()
     {
-        Console.WriteLine($"Compte Payant numero : {numero} - Titulaire : {nom} - Solde : {solde} euros - Commission : {commission} euros - Nombre d'opérations : {nombreOperations}");
+        Console.WriteLine($"{GetNumero()} / {GetNom()} / {GetSolde()} / Commission : {commission} / Opérations : {nombreOperations}");
     }
 }

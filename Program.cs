@@ -142,6 +142,16 @@ class Program
 
         comptePayant.Afficher();
         Console.WriteLine("Nombre d'opérations : " + comptePayant.GetNombreOperations());
+
+        Console.WriteLine("=== Test Heritage ===");
+        Compte c1 = new Compte(20, "Farid", 1500);
+        CompteEpargne c2 = new CompteEpargne(21, "Diana", 1000, 0.03, new DateTime(2024, 1, 15));
+        ComptePayant c3 = new ComptePayant(22, "Hugo", 700, 3);
+
+        Console.WriteLine("Compte créés :");
+        c1.Afficher();
+        c2.Afficher();
+        c3.Afficher();
     }
 
     // Partie 3 Réponses aux questions 1, 2, 3, 4.

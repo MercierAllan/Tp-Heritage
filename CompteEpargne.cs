@@ -1,42 +1,24 @@
-class CompteEpargne
+class CompteEpargne : Compte
 {
-    private int numero;
-    private string nom;
-    private double solde;
-
     private double tauxInteret;
     private DateTime dateOuverture;
 
-    public int GetNumero() 
-    { 
-        return numero; 
-    }
-    public void SetNumero(int numero) 
-    { 
-        this.numero = numero; 
-    }
-
-    public string GetNom() 
-    { 
-        return nom; 
-    }
-    public void SetNom(string nom) 
-    { 
-        this.nom = nom; 
+    // Constructeur
+    public CompteEpargne(int numero, string nom, double solde, double tauxInteret, DateTime dateOuverture)
+        : base(numero, nom, solde)
+    {
+        this.tauxInteret = tauxInteret;
+        this.dateOuverture = dateOuverture;
     }
 
-    public double GetSolde() 
-    { 
-        return solde; 
-    }
-    public void SetSolde(double solde) 
-    { 
-        this.solde = solde; 
+    public CompteEpargne()
+    {
     }
 
+    // Getters / Setters spécifiques
     public double GetTauxInteret() 
     { 
-        return tauxInteret; 
+        return tauxInteret;
     }
     public void SetTauxInteret(double taux) 
     { 
@@ -44,48 +26,35 @@ class CompteEpargne
     }
 
     public DateTime GetDateOuverture() 
-    { 
-        return dateOuverture; 
+    {
+         return dateOuverture; 
     }
     public void SetDateOuverture(DateTime date)
     { 
         this.dateOuverture = date; 
     }
 
-    // Méthodes
-    public bool Crediter(double montant)
+    // Redéfinir le débit pour interdire tout solde négatif
+    public override bool Debiter(double montant)
     {
         if (montant <= 0)
         {
-            Console.WriteLine("Montant invalide");
+            Console.WriteLine("Erreur : montant à débiter doit être positif.");
             return false;
         }
 
-        solde += montant;
+        if (GetSolde() - montant < 0)
+        {
+            Console.WriteLine("Débit refusé : solde insuffisant pour Compte Epargne.");
+            return false;
+        }
+
+        SetSolde(GetSolde() - montant);
         return true;
     }
 
-    public bool Debiter(double montant)
+    public override void Afficher()
     {
-        if (montant <= 0)
-        {
-            Console.WriteLine("Montant invalide");
-            return false;
-        }
-
-        // PAS DE DÉCOUVERT
-        if (solde - montant < 0)
-        {
-            Console.WriteLine("Débit refusé (pas de découvert)");
-            return false;
-        }
-
-        solde -= montant;
-        return true;
-    }
-
-    public void Afficher()
-    {
-        Console.WriteLine($"Compte Epargne numero : {numero} - Titulaire : {nom} - Solde : {solde} euros - Taux : {tauxInteret}% - Ouvert le : {dateOuverture.ToShortDateString()}");
+        Console.WriteLine($"{GetNumero()} / {GetNom()} / {GetSolde()} / Taux : {tauxInteret} / Ouverture : {dateOuverture.ToShortDateString()}");
     }
 }
